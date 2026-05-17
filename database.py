@@ -1,7 +1,9 @@
 import sqlite3
+import os
+DB_PATH = os.environ.get("DB_PATH", "youshop.db")
 
 def get_db_session():
-    conn = sqlite3.connect("youshop.db")
+    conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
     try:
         yield conn
@@ -10,14 +12,15 @@ def get_db_session():
 
 
 def init_db():
-    conn = sqlite3.connect("youshop.db")
+    conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
     
     conn.execute("""
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             username TEXT NOT NULL,
-            email TEXT NOT NULL,
+            email TEXT UNIQUE NOT NULL,
+            phone TEXT UNIQUE NOT NULL,
             password TEXT NOT NULL,
             is_admin INTEGER DEFAULT 0
         )
@@ -30,6 +33,7 @@ def init_db():
             description TEXT,
             image_url TEXT,
             price REAL NOT NULL,
+            unit TEXT DEFAULT 'piece',
             is_active INTEGER DEFAULT 1,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )

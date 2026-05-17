@@ -50,6 +50,7 @@
             <thead style="background: var(--green); color: white;">
                 <tr>
                     <th class="p-4 text-left text-sm">User</th>
+                    <th class="p-4 text-left text-sm">Phone</th>
                     <th class="p-4 text-left text-sm">Product</th>
                     <th class="p-4 text-left text-sm">Qty</th>
                     <th class="p-4 text-left text-sm">Cost</th>
@@ -62,6 +63,9 @@
                     <td class="p-4">
                         <div class="font-medium">{{ d.username }}</div>
                         <div class="text-xs" style="color: var(--muted);">{{ d.email }}</div>
+                    </td>
+                    <td>
+                        <div class="text-xs" style="color: var(--muted);">{{ d.phone }}</div>
                     </td>
                     <td class="p-4 font-medium">{{ d.name }}</td>
                     <td class="p-4">{{ d.total_quantity }}</td>

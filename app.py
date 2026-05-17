@@ -137,7 +137,7 @@ def admin_dashboard(
     """).fetchall()
 
     delivery = db.execute("""
-        SELECT orders.user_id, users.username, users.email, products.name, 
+        SELECT orders.user_id, users.phone, users.username, users.email, products.name, 
         products.price, SUM(orders.quantity) as total_quantity, 
         (products.price * SUM(orders.quantity)) as total_cost 
         FROM orders 
@@ -274,28 +274,31 @@ def register_post(
     request: Request, 
     email: str = Form(...), 
     username: str = Form(...), 
+    phone: str = Form(...),
     password: str = Form(...), 
     confirmation: str = Form(...), 
-    db = Depends(get_db_session)  # ◄── This is the correct way to write it!
+    db = Depends(get_db_session)
 ):
-    # Use the injected 'db' session directly. No more manual 'get_db()' calls!
     row = db.execute("SELECT * FROM users WHERE email = ?", (email,)).fetchone()
-    
     if row:
         return templates.TemplateResponse(
             request=request, name="apology.html", context={"message": "Email already exists"}
         )
+    
+    phone_row = db.execute("SELECT * FROM users WHERE phone = ?", (phone,)).fetchone()
+    if phone_row:
+        return templates.TemplateResponse(
+            request=request, name="apology.html", context={"message": "Phone number already registered"}
+        )
+    
     elif confirmation != password:
         return templates.TemplateResponse(
             request=request, name="apology.html", context={"message": "Confirm password does not match"}
         )
     else:
         hashed = hash_passowrd(password)
-        db.execute("INSERT INTO users (username, email, password) VALUES (?, ?, ?)", (username, email, hashed))
+        db.execute("INSERT INTO users (username, email, phone, password) VALUES (?, ?, ?, ?)", (username, email, phone, hashed))
         db.commit()
-        
-
-        
         return RedirectResponse(url="/login", status_code=303)
 
 
