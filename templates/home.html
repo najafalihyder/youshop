@@ -1,16 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-    <link rel="stylesheet" href="/static/style.css">
-</head>
-<body>
-    <div>
-        <h1>Welcome to YouShop</h1>
-        <p>Here you will get everything transparent at first hand price.</p>
-    </div>
-</body>
-<footer>Allrights reserved Najaf</footer>
-</html>
+{% extends "base.html" %}
+{% block title %}YouShop — Home{% endblock %}
+
+{% block content %}
+<div class="flex flex-col items-center justify-center text-center" style="min-height: 60vh;">
+    <h1 class="text-5xl font-bold mb-4" style="color: var(--green);">Welcome to YouShop</h1>
+    <p class="text-lg mb-8" style="color: var(--muted);">Get everything at first hand wholesale price.</p>
+    <a href="/register" class="btn-primary">Get Started</a>
+</div>
+{% endblock %}
