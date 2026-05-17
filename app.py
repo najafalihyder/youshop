@@ -15,6 +15,9 @@ init_db()
 app = FastAPI()
 
 import os
+ADMIN_EMAIL = os.environ.get("ADMIN_EMAIL", "")
+
+
 app.add_middleware(SessionMiddleware, secret_key=os.environ.get('SECRET_KEY', 'najaf-youshop-2026'))
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -297,7 +300,11 @@ def register_post(
         )
     else:
         hashed = hash_passowrd(password)
-        db.execute("INSERT INTO users (username, email, phone, password) VALUES (?, ?, ?, ?)", (username, email, phone, hashed))
+        is_admin = 1 if email == ADMIN_EMAIL else 0
+        db.execute(
+            "INSERT INTO users (username, email, phone, password, is_admin) VALUES (?, ?, ?, ?, ?)", 
+            (username, email, phone, hashed, is_admin)
+        )
         db.commit()
         return RedirectResponse(url="/login", status_code=303)
 
