@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>{% block title %}YouShop{% endblock %}</title>
+    <style>
+        :root {
+            --green: #1C3829;
+            --gold: #D4A853;
+            --cream: #FAFAF7;
+            --card: #ffffff;
+            --text: #1a1a1a;
+            --muted: #6b7280;
+        }
+        body { background: var(--cream); font-family: 'DM Sans', sans-serif; color: var(--text); }
+        h1, h2, .brand { font-family: 'Fraunces', serif; }
+        .btn-primary { background: var(--green); color: white; padding: 12px 24px; border-radius: 10px; font-weight: 600; transition: opacity 0.2s; display: inline-block; }
+        .btn-primary:hover { opacity: 0.85; }
+        .btn-danger { background: #dc2626; color: white; padding: 8px 16px; border-radius: 8px; font-weight: 500; font-size: 14px; transition: opacity 0.2s; }
+        .btn-danger:hover { opacity: 0.85; }
+        .btn-success { background: #15803d; color: white; padding: 8px 16px; border-radius: 8px; font-weight: 500; font-size: 14px; transition: opacity 0.2s; }
+        .btn-success:hover { opacity: 0.85; }
+        .card { background: var(--card); border-radius: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.04); }
+        .nav-link { color: rgba(255,255,255,0.75); font-size: 14px; font-weight: 500; transition: color 0.2s; }
+        .nav-link:hover { color: white; }
+        input, select, textarea { width: 100%; border: 1.5px solid #e5e7eb; border-radius: 10px; padding: 12px 14px; font-family: 'DM Sans', sans-serif; font-size: 15px; background: white; transition: border-color 0.2s; outline: none; }
+        input:focus, select:focus { border-color: var(--green); }
+        table { border-collapse: separate; border-spacing: 0; }
+        thead th:first-child { border-radius: 12px 0 0 0; }
+        thead th:last-child { border-radius: 0 12px 0 0; }
+    </style>
+</head>
+<body>
+    <nav style="background: var(--green);" class="px-6 py-4 flex items-center justify-between sticky top-0 z-50 shadow-sm">
+        <a href="/shop" class="brand text-white text-xl font-bold tracking-tight">YouShop</a>
+        <div class="flex items-center gap-6">
+            <a href="/shop" class="nav-link">Shop</a>
+            <a href="/orders" class="nav-link">Orders</a>
+            <a href="/logout" class="nav-link" style="color: var(--gold);">Logout</a>
+        </div>
+    </nav>
+    <main class="max-w-5xl mx-auto px-4 py-8">
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

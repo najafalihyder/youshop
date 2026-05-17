@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}My Orders — YouShop{% endblock %}
+{% block content %}
+<div class="mb-8">
+    <h1 class="text-4xl font-bold" style="color: var(--green);">My Orders</h1>
+    <p class="mt-1" style="color: var(--muted);">Your active orders</p>
+</div>
+
+{% if orders %}
+<div class="card overflow-hidden mb-6">
+    <div class="overflow-x-auto">
+        <table class="w-full">
+            <thead style="background: var(--green); color: white;">
+                <tr>
+                    <th class="p-4 text-left text-sm font-500">Product</th>
+                    <th class="p-4 text-left text-sm">Qty</th>
+                    <th class="p-4 text-left text-sm">Price</th>
+                    <th class="p-4 text-left text-sm">Subtotal</th>
+                    <th class="p-4 text-left text-sm"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                    <td class="p-4">
+                        <div class="flex items-center gap-3">
+                            <img src="{{ order.image_url }}" class="w-12 h-12 object-cover rounded-lg">
+                            <span class="font-medium">{{ order.name }}</span>
+                        </div>
+                    </td>
+                    <td class="p-4 font-semibold">{{ order.total_quantity }}</td>
+                    <td class="p-4 text-sm" style="color: var(--muted);">Rs.{{ order.price }}/{{ order.unit }}</td>
+                    <td class="p-4 font-semibold" style="color: var(--green);">Rs.{{ order.subtotal }}</td>
+                    <td class="p-4">
+                        <form method="post" action="/cancel-order">
+                            <input type="hidden" name="product_id" value="{{ order.product_id }}">
+                            <button type="submit" class="btn-danger">Cancel</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr style="background: #f9fafb;">
+                    <td colspan="3" class="p-4 font-semibold">Grand Total</td>
+                    <td class="p-4 font-bold text-lg" style="color: var(--green);">Rs.{{ orders | sum(attribute='subtotal') }}</td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+{% else %}
+<div class="card p-16 text-center">
+    <p class="text-2xl mb-2">🛒</p>
+    <p class="font-semibold">No active orders</p>
+    <p class="text-sm mt-1" style="color: var(--muted);">Go to shop and add products</p>
+    <a href="/shop" class="btn-primary inline-block mt-4">Browse Shop</a>
+</div>
+{% endif %}
+{% endblock %}

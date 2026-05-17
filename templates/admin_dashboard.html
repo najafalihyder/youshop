@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — Admin{% endblock %}
+{% block content %}
+<div class="mb-8">
+    <h1 class="text-4xl font-bold" style="color: var(--green);">Dashboard</h1>
+    <p class="mt-1" style="color: var(--muted);">Active orders overview</p>
+</div>
+
+<!-- Bulk Order Summary -->
+<h2 class="text-xl font-semibold mb-3">Supplier Order List</h2>
+<div class="card overflow-hidden mb-8">
+    {% if summary %}
+    <div class="overflow-x-auto">
+        <table class="w-full">
+            <thead style="background: var(--green); color: white;">
+                <tr>
+                    <th class="p-4 text-left text-sm">Product</th>
+                    <th class="p-4 text-left text-sm">Total Qty</th>
+                    <th class="p-4 text-left text-sm">Total Cost</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for s in summary %}
+                <tr class="border-b border-gray-100">
+                    <td class="p-4 font-medium">{{ s.name }}</td>
+                    <td class="p-4">{{ s.total_quantity }}</td>
+                    <td class="p-4 font-semibold" style="color: var(--green);">Rs.{{ s.total_cost }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot style="background: #f9fafb;">
+                <tr>
+                    <td colspan="2" class="p-4 font-bold">Total Investment</td>
+                    <td class="p-4 font-bold text-lg" style="color: var(--green);">Rs.{{ summary | sum(attribute='total_cost') }}</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    {% else %}
+    <div class="p-12 text-center" style="color: var(--muted);">No active orders</div>
+    {% endif %}
+</div>
+
+<!-- Delivery List -->
+<h2 class="text-xl font-semibold mb-3">Delivery List</h2>
+<div class="card overflow-hidden">
+    {% if delivery %}
+    <div class="overflow-x-auto">
+        <table class="w-full">
+            <thead style="background: var(--green); color: white;">
+                <tr>
+                    <th class="p-4 text-left text-sm">User</th>
+                    <th class="p-4 text-left text-sm">Product</th>
+                    <th class="p-4 text-left text-sm">Qty</th>
+                    <th class="p-4 text-left text-sm">Cost</th>
+                    <th class="p-4 text-left text-sm">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for d in delivery %}
+                <tr class="border-b border-gray-100 hover:bg-gray-50">
+                    <td class="p-4">
+                        <div class="font-medium">{{ d.username }}</div>
+                        <div class="text-xs" style="color: var(--muted);">{{ d.email }}</div>
+                    </td>
+                    <td class="p-4 font-medium">{{ d.name }}</td>
+                    <td class="p-4">{{ d.total_quantity }}</td>
+                    <td class="p-4 font-semibold" style="color: var(--green);">Rs.{{ d.total_cost }}</td>
+                    <td class="p-4">
+                        <form method="post" action="/admin/mark_delivered">
+                            <input type="hidden" name="target_user_id" value="{{ d.user_id }}">
+                            <button type="submit" class="btn-success">Mark Delivered</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot style="background: #f9fafb;">
+                <tr>
+                    <td colspan="3" class="p-4 font-bold">Grand Total</td>
+                    <td class="p-4 font-bold text-lg" style="color: var(--green);">Rs.{{ delivery | sum(attribute='total_cost') }}</td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    {% else %}
+    <div class="p-12 text-center" style="color: var(--muted);">No deliveries pending</div>
+    {% endif %}
+</div>
+{% endblock %}

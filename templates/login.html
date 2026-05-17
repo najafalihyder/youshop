@@ -1,23 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-</head>
-<body>
-    <div>
-
-        <form action="/login" method="post" class="register-form">
-
-            <div>
-                <input type="email" name="email" placeholder="email">
-            </div>
-            <div>
-                <input type="password" name="password" placeholder="password">
-            </div>
-            <button type="submit">Login</button>
+{% extends "base.html" %}
+{% block title %}Login — YouShop{% endblock %}
+{% block content %}
+<div class="min-h-screen flex items-center justify-center" style="margin-top: -32px;">
+    <div class="card p-8 w-full max-w-sm">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold" style="color: var(--green);">Welcome back</h1>
+            <p class="text-sm mt-1" style="color: var(--muted);">Sign in to your YouShop account</p>
+        </div>
+        <form action="/login" method="post" class="flex flex-col gap-4">
+            <input type="email" name="email" placeholder="Email address" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit" class="btn-primary text-center mt-2">Sign In</button>
         </form>
+        <p class="text-center text-sm mt-6" style="color: var(--muted);">
+            New here? <a href="/register" style="color: var(--green); font-weight: 600;">Create account</a>
+        </p>
     </div>
-</body>
-</html>
+</div>
+{% endblock %}

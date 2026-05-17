@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Shop — YouShop{% endblock %}
+{% block content %}
+<div class="mb-8">
+    <h1 class="text-4xl font-bold" style="color: var(--green);">Shop</h1>
+    <p class="mt-1" style="color: var(--muted);">Order together, save together</p>
+</div>
+
+{% if products %}
+<div class="grid grid-cols-2 gap-4" style="grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));">
+    {% for product in products %}
+    <div class="card overflow-hidden flex flex-col">
+        <img src="{{ product.image_url }}" alt="{{ product.name }}" class="w-full object-cover" style="height: 180px;">
+        <div class="p-4 flex flex-col flex-1">
+            <h3 class="font-semibold text-lg leading-tight">{{ product.name }}</h3>
+            {% if product.description %}
+            <p class="text-sm mt-1 flex-1" style="color: var(--muted);">{{ product.description }}</p>
+            {% endif %}
+            <div class="flex items-center justify-between mt-4">
+                <span class="font-bold text-lg" style="color: var(--green);">Rs.{{ product.price }}<span class="text-sm font-normal" style="color: var(--muted);">/{{ product.unit }}</span></span>
+                <form action="/buy" method="post">
+                    <input type="hidden" name="product_id" value="{{ product.id }}">
+                    <button type="submit" class="btn-primary" style="padding: 8px 20px; font-size: 14px;">Add Order</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="card p-16 text-center">
+    <p class="text-2xl mb-2">🏪</p>
+    <p class="font-semibold">No products yet</p>
+    <p class="text-sm mt-1" style="color: var(--muted);">Check back soon</p>
+</div>
+{% endif %}
+{% endblock %}
