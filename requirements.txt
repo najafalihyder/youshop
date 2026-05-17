@@ -1,6 +1,8 @@
 fastapi
-uvicorn
+uvicorn[standard]
 starlette
 python-multipart
 bcrypt
 jinja2
+itsdangerous
+passlib
